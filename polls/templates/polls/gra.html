@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+   
+    <title>Przyciski</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'polls/styl.css' %}">
+    <script >
+        const notes = ['C', 'D'];
+
+
+        let odpowiedz = '';
+
+        const sciezka = "{% static 'polls/audio/' %}";  
+
+        function zagraj() {
+            odpowiedz = notes[Math.floor(Math.random() * notes.length)];
+            let audio = new Audio(sciezka + odpowiedz + ".mp3"); // Załaduj dźwięk
+            audio.play();
+            
+        }
+
+
+
+        let czyPoprawne = false;
+
+        function sprawdz(odpowiedz, form) {
+            let czyPoprawne = (odpowiedz === odpowiedz);
+
+            if (czyPoprawne) {
+                alert("OK!");
+                form.action = "{% url 'button_click' 'poprawne' %}"; 
+            } else {
+                alert("Umierasz!");
+                form.action = "{% url 'button_click' 'zle' %}"; 
+            }
+
+            
+            form.submit();
+            
+            
+        }
+
+    </script>
+
+</head>
+<body>
+    <h1>Odgadnij dźwięk</h1>
+    <div class="container" >
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('C', this);">
+            {% csrf_token %}
+            <button type="submit">C</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('C#', this);">
+            {% csrf_token %}
+            <button type="submit" class="accidental">C#</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('D', this);">
+            {% csrf_token %}
+            <button type="submit">D</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('D#', this);">
+            {% csrf_token %}
+            <button type="submit" class="accidental">D#</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('E', this);">
+            {% csrf_token %}
+            <button type="submit">E</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('F', this);">
+            {% csrf_token %}
+            <button type="submit">F</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('F#', this);">
+            {% csrf_token %}
+            <button type="submit" class="accidental">F#</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('G', this);">
+            {% csrf_token %}
+            <button type="submit">G</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('G#', this);">
+            {% csrf_token %}
+            <button type="submit" class="accidental">G#</button>
+        </form>
+        
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('A', this);">
+            {% csrf_token %}
+            <button type="submit" >A</button>
+        </form>
+
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('A#', this);">
+            {% csrf_token %}
+            <button type="submit" class="accidental">A#</button>
+        </form>
+
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('B', this);">
+            {% csrf_token %}
+            <button type="submit">B</button>
+        </form>
+        </form>
+    </div>
+   
+
+    {% if user.is_authenticated %}
+    <button onclick="zagraj()" id="zagraj">Zagraj dźwięk</button>
+    <p id="poprawne">Poprawne odpowiedzi: <span id="correct_score">{{ request.user.dobre }}</span></p>
+    <p id="bledne">Błędne odpowiedzi: <span id="wrong_score">{{ request.user.zle }}</span></p>
+    <a href="{% url 'logout' %}">Wyloguj się</a>
+    <p>Alert: dźwięki odtwarzają się na firefoxie, ale nie na chromie. nie wiem czemu.</p>
+    {% else %}
+    <a href="{% url 'rejestr' %}">Zaloguj się by zapisać wynik</a>
+    {% endif %}
+</body>
+</html>
