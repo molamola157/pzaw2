@@ -7,29 +7,38 @@
    
     <title>Przyciski</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'polls/styl.css' %}">
+    <link rel="stylesheet" href="{% static 'polls/stylos.css' %}">
     <script >
-        const notes = ['C', 'D'];
+        const notes = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 
 
         let odpowiedz = '';
+        let audio;
+        var weryfikacja = true;
 
         const sciezka = "{% static 'polls/audio/' %}";  
 
         function zagraj() {
+            if (weryfikacja) {
             odpowiedz = notes[Math.floor(Math.random() * notes.length)];
-            let audio = new Audio(sciezka + odpowiedz + ".mp3"); // Załaduj dźwięk
+            audio = new Audio(sciezka + odpowiedz + ".mp3"); // Załaduj 
             audio.play();
+            weryfikacja = false;
+            }
+            else {
+            audio.play();
+            }
+            
             
         }
 
-
+    
 
         let czyPoprawne = false;
 
-        function sprawdz(odpowiedz, form) {
-            let czyPoprawne = (odpowiedz === odpowiedz);
-
+        function sprawdz(smieszek, form) {
+            let czyPoprawne = (smieszek === odpowiedz);
+            
             if (czyPoprawne) {
                 alert("OK!");
                 form.action = "{% url 'button_click' 'poprawne' %}"; 
@@ -65,7 +74,7 @@
             <button type="submit">D</button>
         </form>
    
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('D#', this);">
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Db', this);">
             {% csrf_token %}
             <button type="submit" class="accidental">D#</button>
         </form>
@@ -80,7 +89,7 @@
             <button type="submit">F</button>
         </form>
    
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('F#', this);">
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Fb', this);">
             {% csrf_token %}
             <button type="submit" class="accidental">F#</button>
         </form>
@@ -90,7 +99,7 @@
             <button type="submit">G</button>
         </form>
    
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('G#', this);">
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Gb', this);">
             {% csrf_token %}
             <button type="submit" class="accidental">G#</button>
         </form>
@@ -100,7 +109,7 @@
             <button type="submit" >A</button>
         </form>
 
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('A#', this);">
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Ab', this);">
             {% csrf_token %}
             <button type="submit" class="accidental">A#</button>
         </form>
