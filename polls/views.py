@@ -22,7 +22,11 @@ from django.contrib import messages
 from django.http import JsonResponse
 
 def gra(request):
-    return render(request, 'polls/gra.html')
+    if request.user.is_authenticated:
+        profiles = CustomUser.objects.all().order_by('-stosunek')  # Sortowanie według poprawnych odpowiedzi
+        return render(request, 'polls/gra.html', {'users': profiles})
+    else:
+        return render(request, 'polls/gra.html')
 
 def register(rekwest):
     if rekwest.method == 'POST':
@@ -54,7 +58,7 @@ def user_login(rekwest):
         form = CustomAuthenticationForm()
     return render(rekwest, 'polls/login.html', {'form': form})
 
-@login_required
+
 def button_click(request, action):
 
     user = request.user
@@ -72,6 +76,3 @@ def button_click(request, action):
 from .models import CustomUser
 
 
-def user_stats(request):
-    profiles = CustomUser.objects.all().order_by('-correct_answers')  # Sortowanie według poprawnych odpowiedzi
-    return render(request, 'polls/gra.html', {'profiles': profiles})

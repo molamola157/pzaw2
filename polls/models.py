@@ -1,10 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+
 class CustomUser(AbstractUser):
      button_click_count = models.PositiveIntegerField(default=0) 
      dobre = models.PositiveIntegerField(default=0) 
      zle = models.PositiveIntegerField(default=0) 
+     stosunek = models.IntegerField(default=0)
+
+     def save(self, *args, **kwargs):
+        # Oblicz stosunek przed zapisaniem obiektu
+
+        self.stosunek = self.dobre - self.zle  # Oblicz stosunek
+        super().save(*args, **kwargs)  # Zapisz obiekt
 
 
 

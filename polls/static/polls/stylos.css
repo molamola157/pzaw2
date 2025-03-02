@@ -70,6 +70,59 @@ a {
     transition: width 2s;
 }
 
+table {
+    display:flex;
+    justify-content: center;
+}
+
+th, td {
+    
+    justify-content: center;
+    background-color: rgb(97, 97, 97);
+    padding:10px;
+    width:100px;
+    
+}
+
+
+#user {
+    background-color:rgb(123, 123, 123); 
+}
+
+.user {
+    width:300px;
+ 
+}
+
+#pop {
+    background-color:rgb(90, 126, 90);
+}
+
+.pop {
+    background-color:rgb(56, 78, 56);
+}
+
+#niepop {
+    background-color:rgb(146, 80, 80);
+}
+
+.niepop {
+    background-color:rgb(82, 50, 50);
+}
+
+#ratio {
+    background-color:rgb(85, 92, 164);
+}
+
+.ratio {
+    background-color:rgb(55, 59, 96);
+    font-weight:bold;
+}
+
+#alert {
+    color:rgb(255, 54, 54);
+    font-size:10px;
+}
 
 #login {
     height:auto;

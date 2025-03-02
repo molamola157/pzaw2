@@ -76,40 +76,44 @@
         </form>
 
     </div>
-   
+    <p id="alert">Alert: dźwięki odtwarzają się na firefoxie, ale nie na chromie. nie wiem czemu.</p>
 
-    {% if user.is_authenticated %}
+  
+   
     <button onclick="zagraj()" id="zagraj">Zagraj dźwięk</button>
     <button id="tryb" onclick="zmienTryb()">
         Tryb trenowania: wył.
     </button>
+    {% if user.is_authenticated %}
     <p id="poprawne">Poprawne odpowiedzi: <span id="correct_score">{{ request.user.dobre }}</span></p>
     <p id="bledne">Błędne odpowiedzi: <span id="wrong_score">{{ request.user.zle }}</span></p>
+    <p>Jesteś zalogowany jako {{ user.username }}.</p>
     <a href="{% url 'logout' %}">Wyloguj się</a>
-    <p>Alert: dźwięki odtwarzają się na firefoxie, ale nie na chromie. nie wiem czemu.</p>
+    
     {% else %}
     <a href="{% url 'rejestr' %}">Zaloguj się by zapisać wynik</a>
     {% endif %}
 
 
-    <h2>Statystyki użytkowników</h2>
-    <table border="1">
-        <thead>
+    <h3>Statystyki użytkowników</h3>
+    <table>
+    
             <tr>
-                <th>Użytkownik</th>
-                <th>Poprawne odpowiedzi</th>
-                <th>Niepoprawne odpowiedzi</th>
+                <td id="user">Użytkownik</td>
+                <td id="pop">Poprawne odpowiedzi</td>
+                <td id="niepop">Niepoprawne odpowiedzi</td>
+                <th id="ratio">Balans</th>
             </tr>
-        </thead>
-        <tbody>
-            {% for profile in profiles %}
+    
+            {% for user in users %}
             <tr>
-                <td>{{ profile.user.username }}</td>
-                <td>{{ profile.correct_answers }}</td>
-                <td>{{ profile.incorrect_answers }}</td>
+                <td class="user">{{ user.username }}</td>
+                <td class="pop">{{ user.dobre }}</td>
+                <td class="niepop">{{ user.zle }}</td>
+                <td class="ratio">{{ user.stosunek }}</td>
             </tr>
             {% endfor %}
-        </tbody>
+      
     </table>
 
 
