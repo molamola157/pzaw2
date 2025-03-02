@@ -22,11 +22,10 @@ from django.contrib import messages
 from django.http import JsonResponse
 
 def gra(request):
-    if request.user.is_authenticated:
-        profiles = CustomUser.objects.all().order_by('-stosunek')  # Sortowanie według poprawnych odpowiedzi
-        return render(request, 'polls/gra.html', {'users': profiles})
-    else:
-        return render(request, 'polls/gra.html')
+
+    profiles = CustomUser.objects.all().order_by('-stosunek')[:14]  # Sortowanie według poprawnych odpowiedzi
+    return render(request, 'polls/gra.html', {'users': profiles})
+    
 
 def register(rekwest):
     if rekwest.method == 'POST':
@@ -76,3 +75,11 @@ def button_click(request, action):
 from .models import CustomUser
 
 
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+@login_required
+def logout_view(request):
+    request.session.flush()
+    logout(request)
+    return redirect('muzyka') 

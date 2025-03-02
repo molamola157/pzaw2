@@ -34,6 +34,9 @@ AUTH_USER_MODEL = 'polls.CustomUser'
 
 # Application definition
 
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

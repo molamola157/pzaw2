@@ -7,14 +7,52 @@
    
     <title>Przyciski</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'polls/stylos.css' %}">
+    <link rel="stylesheet" href="{% static 'polls/stylislav.css' %}">
     
 </head>
 <body>
-    <h1>Odgadnij dźwięk</h1>
+  
+    <div class="rodzic">
+    <div class="container2"> 
+    {% if user.is_authenticated %}
+    <h2>Jesteś zalogowany jako {{ user.username }}.</h2>
+    <p id="poprawne">Poprawne odpowiedzi: <span id="correct_score">{{ request.user.dobre }}</span></p>
+    <p id="bledne">Błędne odpowiedzi: <span id="wrong_score">{{ request.user.zle }}</span></p>
+    
+    <a href="{% url 'logout' %}">Wyloguj się</a>
+    
+    {% else %}
+    <a href="{% url 'login' %}">Zaloguj się by zapisać wynik</a>
+    {% endif %}
 
-   
+
+    <h3>Najlepsi użytkownicy</h3>
+    <table>
+    
+            <tr>
+                <td id="user">Użytkownik</td>
+                <td id="pop">Poprawne odpowiedzi</td>
+                <td id="niepop">Niepoprawne odpowiedzi</td>
+                <th id="ratio">Balans</th>
+            </tr>
+    
+            {% for user in users %}
+            <tr>
+                <td class="user">{{ user.username }}</td>
+                <td class="pop">{{ user.dobre }}</td>
+                <td class="niepop">{{ user.zle }}</td>
+                <td class="ratio">{{ user.stosunek }}</td>
+            </tr>
+            {% endfor %}
+      
+    </table>
+    </div>
+
     <div class="container" >
+
+        <h1>Odgadnij dźwięk</h1>
+
+        <div id="pianino">
         <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('C', this);">
             {% csrf_token %}
             <button type="submit" id="C">C</button>
@@ -74,8 +112,9 @@
             {% csrf_token %}
             <button type="submit" id="B">B</button>
         </form>
-
     </div>
+
+   
     <p id="alert">Alert: dźwięki odtwarzają się na firefoxie, ale nie na chromie. nie wiem czemu.</p>
 
   
@@ -84,38 +123,8 @@
     <button id="tryb" onclick="zmienTryb()">
         Tryb trenowania: wył.
     </button>
-    {% if user.is_authenticated %}
-    <p id="poprawne">Poprawne odpowiedzi: <span id="correct_score">{{ request.user.dobre }}</span></p>
-    <p id="bledne">Błędne odpowiedzi: <span id="wrong_score">{{ request.user.zle }}</span></p>
-    <p>Jesteś zalogowany jako {{ user.username }}.</p>
-    <a href="{% url 'logout' %}">Wyloguj się</a>
-    
-    {% else %}
-    <a href="{% url 'rejestr' %}">Zaloguj się by zapisać wynik</a>
-    {% endif %}
-
-
-    <h3>Statystyki użytkowników</h3>
-    <table>
-    
-            <tr>
-                <td id="user">Użytkownik</td>
-                <td id="pop">Poprawne odpowiedzi</td>
-                <td id="niepop">Niepoprawne odpowiedzi</td>
-                <th id="ratio">Balans</th>
-            </tr>
-    
-            {% for user in users %}
-            <tr>
-                <td class="user">{{ user.username }}</td>
-                <td class="pop">{{ user.dobre }}</td>
-                <td class="niepop">{{ user.zle }}</td>
-                <td class="ratio">{{ user.stosunek }}</td>
-            </tr>
-            {% endfor %}
-      
-    </table>
-
+    </div>
+    </div>
 
     <script>
         const notes = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
@@ -144,7 +153,7 @@
         function zagraj() {
             if (weryfikacja) {
             odpowiedz = notes[Math.floor(Math.random() * notes.length)];
-            audio = new Audio(sciezka + odpowiedz + ".mp3"); // Załaduj 
+            audio = new Audio(sciezka + odpowiedz + ".mp3"); 
             audio.play();
             weryfikacja = false;
             }
@@ -161,11 +170,11 @@
         function zmienTryb() {
             if (TrybTrenowania) {
                 TrybTrenowania = false;
-                guzik.style.backgroundColor = 'rgb(255, 70, 70)'; // Zmiana koloru tła
+                guzik.style.backgroundColor = 'rgb(255, 70, 70)'; 
                 guzik.innerHTML = "Tryb trenowania: wył.";
             } else {
                 TrybTrenowania = true;
-                guzik.style.backgroundColor = 'rgb(70, 220, 70)'; // Zmiana koloru tła
+                guzik.style.backgroundColor = 'rgb(70, 220, 70)';
                 guzik.innerHTML = "Tryb trenowania: wł.";
             }
         }
@@ -244,6 +253,7 @@
         }
             
         }
+   
 
     </script>
 

@@ -2,18 +2,42 @@
 body { 
     text-align: center;
     font-family: Arial, sans-serif; 
-    background-color: rgb(17, 17, 17);
-    color:rgb(237, 237, 237);
+    background-color: rgb(25, 25, 25);
+    color:rgb(255, 255, 255);
+    margin:0;
+    overflow-y:hidden;
     }
 
+
+
+.rodzic {
+    display:flex;
+    width:100%
+}
+
 .container { 
-    display: flex; 
+    
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px; 
     padding: 20px; 
-    
+    flex:4;
     }
+
+
+.container2 {
+    padding:20px;
+    background-color: rgb(57, 57, 57);
+    color:white;
+    flex:2;
+    height:100vh;
+    }
+
+#pianino {
+    display: flex; 
+    justify-content: center;
+    gap:10px;
+}
 
 button { 
     background-color: white;
@@ -73,14 +97,15 @@ a {
 table {
     display:flex;
     justify-content: center;
+    font-size: 16px;
 }
 
 th, td {
     
     justify-content: center;
     background-color: rgb(97, 97, 97);
-    padding:10px;
-    width:100px;
+    padding:5px;
+    width:50px;
     
 }
 
@@ -90,7 +115,7 @@ th, td {
 }
 
 .user {
-    width:300px;
+    width:200px;
  
 }
 
@@ -116,7 +141,7 @@ th, td {
 
 .ratio {
     background-color:rgb(55, 59, 96);
-    font-weight:bold;
+    font-weight:bold; 
 }
 
 #alert {

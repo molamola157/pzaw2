@@ -9,10 +9,10 @@ class CustomUser(AbstractUser):
      stosunek = models.IntegerField(default=0)
 
      def save(self, *args, **kwargs):
-        # Oblicz stosunek przed zapisaniem obiektu
 
-        self.stosunek = self.dobre - self.zle  # Oblicz stosunek
-        super().save(*args, **kwargs)  # Zapisz obiekt
+
+        self.stosunek = self.dobre - self.zle  
+        super().save(*args, **kwargs) 
 
 
 

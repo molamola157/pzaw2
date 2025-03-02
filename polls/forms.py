@@ -53,7 +53,6 @@ from django.contrib.auth import get_user_model
 CustomUser = get_user_model()
 
 class CustomUserCreationForm(UserCreationForm):
-   # age = forms.IntegerField(required=False, min_value=0, label='Wiek')
 
     class Meta:
         model = CustomUser
