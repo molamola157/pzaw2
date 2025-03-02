@@ -150,6 +150,8 @@
 
         const sciezka = "{% static 'polls/audio/' %}";  
 
+        
+
         function zagraj() {
             if (weryfikacja) {
             odpowiedz = notes[Math.floor(Math.random() * notes.length)];
@@ -159,13 +161,10 @@
             }
             else {
             audio.play();
-            }
-            
-            
+            }     
         }
 
         const guzik = document.getElementById('tryb');
-     
 
         function zmienTryb() {
             if (TrybTrenowania) {

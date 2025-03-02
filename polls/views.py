@@ -1,25 +1,15 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404
-from datetime import datetime
 from .forms import CustomUserCreationForm
-from django.contrib.auth.views import LoginView
 from django.contrib.auth import authenticate, login
 from .forms import CustomAuthenticationForm
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import get_object_or_404
-from .models import Post, Vote
-from django.utils.timezone import now  
-from django.http import HttpResponse, HttpResponseBadRequest
-from .models import Post
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from .forms import CustomUserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+from .models import CustomUser
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
-from django.http import JsonResponse
 
 def gra(request):
 
@@ -51,7 +41,6 @@ def user_login(rekwest):
                 form.add_error(None, 'a')
         else:
             print(form.errors)
-            print("kurde")
            
     else:
         form = CustomAuthenticationForm()
@@ -59,24 +48,21 @@ def user_login(rekwest):
 
 
 def button_click(request, action):
-
-    user = request.user
-    if action == 'poprawne':
-        user.dobre += 1
-    elif action == 'zle':
-        user.zle += 1
-
-
-    user.button_click_count += 1  
-    user.save() 
-    messages.success(request, f'Liczba kliknięć: {user.button_click_count}')
-    return redirect('muzyka') 
-
-from .models import CustomUser
+    if request.user.is_authenticated:
+        user = request.user
+        if action == 'poprawne':
+            user.dobre += 1
+        elif action == 'zle':
+            user.zle += 1
 
 
-from django.contrib.auth import logout
-from django.shortcuts import redirect
+        user.button_click_count += 1  
+        user.save() 
+        return redirect('muzyka') 
+    else:
+        return redirect('muzyka') 
+
+
 
 @login_required
 def logout_view(request):
