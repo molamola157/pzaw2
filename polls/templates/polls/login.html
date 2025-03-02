@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logowanie</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'polls/styl2.css' %}">
+    <link rel="stylesheet" href="{% static 'polls/stylos.css' %}">
 </head>
 <body>
 
+<div id="log">
 <h2>Logowanie</h2>
 
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }} 
-    <button type="submit">Zaloguj się</button>
+    <button type="submit" id="login">Zaloguj się</button>
 </form>
 <p>Chcesz założyć konto? <a href="{% url 'register' %}">Zarejestruj się</a></p>
 
@@ -27,6 +28,6 @@
         {% endfor %}
     </ul>
 {% endif %}
-
+</div>
 </body>
 </html>

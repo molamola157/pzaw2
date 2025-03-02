@@ -69,3 +69,9 @@ def button_click(request, action):
     messages.success(request, f'Liczba kliknięć: {user.button_click_count}')
     return redirect('muzyka') 
 
+from .models import CustomUser
+
+
+def user_stats(request):
+    profiles = CustomUser.objects.all().order_by('-correct_answers')  # Sortowanie według poprawnych odpowiedzi
+    return render(request, 'polls/gra.html', {'profiles': profiles})

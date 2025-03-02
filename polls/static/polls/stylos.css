@@ -2,8 +2,8 @@
 body { 
     text-align: center;
     font-family: Arial, sans-serif; 
-    background-color: rgb(204, 204, 204);
-    color:rgb(0, 0, 0);
+    background-color: rgb(17, 17, 17);
+    color:rgb(237, 237, 237);
     }
 
 .container { 
@@ -32,21 +32,49 @@ button {
 }
 
 #poprawne {
-    color:rgb(0, 95, 0);
+    color:rgb(70, 220, 70);
     font-weight: bold;
 }
 
 #bledne {
-    color:rgb(94, 0, 0);
+    color:rgb(255, 70, 70);
     font-weight: bold;
 }
 
 #zagraj {
+    width:220px;
+    margin-right:4px;
     height:auto;
     background-color: rgb(77, 77, 255);
     color:white;
 }
 
+#tryb {
+    width:220px;
+    height:auto;
+    margin-left:4px;
+    background-color: rgb(255, 70, 70);
+    color:white;
+    
+}
+
+
 a {
     color: white;
+}
+
+
+.container button:active {
+    background-color:rgb(255, 53, 53);
+    box-shadow: 0 0 20px 1px rgb(255, 108, 108);
+    transition: width 2s;
+}
+
+
+#login {
+    height:auto;
+}
+
+#log {
+    margin-top:200px;
 }

@@ -11,6 +11,6 @@ urlpatterns = [
     path('login/', auth_views.LogoutView.as_view(), name='logout'),  
     path('gra/', views.gra, name='muzyka'),
     path('rejestr/', views.register, name='register'),
-    path('button_click/<str:action>/', views.button_click, name='button_click')
-    
+    path('button_click/<str:action>/', views.button_click, name='button_click'),
+     path('button_click/', views.user_stats, name='user_stats')
 ]

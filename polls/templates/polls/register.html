@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejestracja</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'polls/styl2.css' %}">
+    <link rel="stylesheet" href="{% static 'polls/stylos.css' %}">
 </head>
 <body>
+    <div id="log">
     <h1>Zarejestruj się</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Zarejestruj</button>
+        <button type="submit" id="login">Zarejestruj</button>
     </form>
     <p>Masz już konto? <a href="{% url 'login' %}">Zaloguj się</a></p>
+    </div>
 </body>
 </html>

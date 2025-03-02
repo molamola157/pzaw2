@@ -8,10 +8,129 @@
     <title>Przyciski</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'polls/stylos.css' %}">
-    <script >
+    
+</head>
+<body>
+    <h1>Odgadnij dźwięk</h1>
+
+   
+    <div class="container" >
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('C', this);">
+            {% csrf_token %}
+            <button type="submit" id="C">C</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Db', this);">
+            {% csrf_token %}
+            <button type="submit" class="accidental" id="Db">C#</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('D', this);">
+            {% csrf_token %}
+            <button type="submit" id="D">D</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Eb', this);">
+            {% csrf_token %}
+            <button type="submit" class="accidental" id="Eb">D#</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('E', this);">
+            {% csrf_token %}
+            <button type="submit" id="E">E</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('F', this);">
+            {% csrf_token %}
+            <button type="submit" id="F">F</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Gb', this);">
+            {% csrf_token %}
+            <button type="submit" class="accidental" id="Gb">F#</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('G', this);">
+            {% csrf_token %}
+            <button type="submit" id="G">G</button>
+        </form>
+   
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Ab', this);">
+            {% csrf_token %}
+            <button type="submit" class="accidental" id="Ab">G#</button>
+        </form>
+        
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('A', this);">
+            {% csrf_token %}
+            <button type="submit" id="A" class="wyjatuszek">A</button>
+        </form>
+
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Bb', this);">
+            {% csrf_token %}
+            <button type="submit" class="accidental" id="Bb">A#</button>
+        </form>
+
+        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('B', this);">
+            {% csrf_token %}
+            <button type="submit" id="B">B</button>
+        </form>
+
+    </div>
+   
+
+    {% if user.is_authenticated %}
+    <button onclick="zagraj()" id="zagraj">Zagraj dźwięk</button>
+    <button id="tryb" onclick="zmienTryb()">
+        Tryb trenowania: wył.
+    </button>
+    <p id="poprawne">Poprawne odpowiedzi: <span id="correct_score">{{ request.user.dobre }}</span></p>
+    <p id="bledne">Błędne odpowiedzi: <span id="wrong_score">{{ request.user.zle }}</span></p>
+    <a href="{% url 'logout' %}">Wyloguj się</a>
+    <p>Alert: dźwięki odtwarzają się na firefoxie, ale nie na chromie. nie wiem czemu.</p>
+    {% else %}
+    <a href="{% url 'rejestr' %}">Zaloguj się by zapisać wynik</a>
+    {% endif %}
+
+
+    <h2>Statystyki użytkowników</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Użytkownik</th>
+                <th>Poprawne odpowiedzi</th>
+                <th>Niepoprawne odpowiedzi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profile in profiles %}
+            <tr>
+                <td>{{ profile.user.username }}</td>
+                <td>{{ profile.correct_answers }}</td>
+                <td>{{ profile.incorrect_answers }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <script>
         const notes = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 
 
+        const C = document.getElementById['C'];
+        const Db = document.getElementById['C'];
+        const D = document.getElementById['C'];
+        const Eb = document.getElementById['C'];
+        const E = document.getElementById['C'];
+        const F = document.getElementById['C'];
+        const Gb = document.getElementById['C'];
+        const G = document.getElementById['C'];
+        const Ab = document.getElementById['C'];
+        const A = document.getElementById['C'];
+        const Bb = document.getElementById['C'];
+        const B = document.getElementById['C'];
+
+        let TrybTrenowania = false;
         let odpowiedz = '';
         let audio;
         var weryfikacja = true;
@@ -32,11 +151,26 @@
             
         }
 
+        const guzik = document.getElementById('tryb');
+     
+
+        function zmienTryb() {
+            if (TrybTrenowania) {
+                TrybTrenowania = false;
+                guzik.style.backgroundColor = 'rgb(255, 70, 70)'; // Zmiana koloru tła
+                guzik.innerHTML = "Tryb trenowania: wył.";
+            } else {
+                TrybTrenowania = true;
+                guzik.style.backgroundColor = 'rgb(70, 220, 70)'; // Zmiana koloru tła
+                guzik.innerHTML = "Tryb trenowania: wł.";
+            }
+        }
     
 
         let czyPoprawne = false;
 
         function sprawdz(smieszek, form) {
+            if (!TrybTrenowania) {
             let czyPoprawne = (smieszek === odpowiedz);
             
             if (czyPoprawne) {
@@ -46,90 +180,68 @@
                 alert("Umierasz!");
                 form.action = "{% url 'button_click' 'zle' %}"; 
             }
-
             
             form.submit();
-            
+
+        } else {
+            switch(smieszek) {
+                case 'C':
+                    audio = new Audio(sciezka + "C.mp3");
+                    audio.play()
+                    break;
+                case 'Db':
+                    audio = new Audio(sciezka + "Db.mp3");
+                    audio.play()
+                    break;
+                case 'D':
+                    audio = new Audio(sciezka + "D.mp3");
+                    audio.play()
+                    break;
+                case 'Eb':
+                    audio = new Audio(sciezka + "Eb.mp3");
+                    audio.play()
+                    break;
+                case 'E':
+                    audio = new Audio(sciezka + "E.mp3");
+                    audio.play()
+                    break;
+                case 'F':
+                    audio = new Audio(sciezka + "F.mp3");
+                    audio.play()
+                    break;
+                case 'Gb':
+                    audio = new Audio(sciezka + "Gb.mp3");
+                    audio.play()
+                    break;
+                case 'G':
+                    audio = new Audio(sciezka + "G.mp3");
+                    audio.play()
+                    break;
+                case 'Ab':
+                    audio = new Audio(sciezka + "Ab.mp3");
+                    audio.play()
+                    break;
+                case 'A':
+                    audio = new Audio(sciezka + "A.mp3");
+                    audio.play()
+                    break;
+                case 'Bb':
+                    audio = new Audio(sciezka + "Bb.mp3");
+                    audio.play()
+                    break;
+                case 'B':
+                    audio = new Audio(sciezka + "B.mp3");
+                    audio.play()
+                    break;
+                default:
+                    console.log("Jem kostkę czekolady podczas pisania tego");
+                    break;
+            }
+        }
             
         }
 
     </script>
 
-</head>
-<body>
-    <h1>Odgadnij dźwięk</h1>
-    <div class="container" >
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('C', this);">
-            {% csrf_token %}
-            <button type="submit">C</button>
-        </form>
-   
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('C#', this);">
-            {% csrf_token %}
-            <button type="submit" class="accidental">C#</button>
-        </form>
-   
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('D', this);">
-            {% csrf_token %}
-            <button type="submit">D</button>
-        </form>
-   
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Db', this);">
-            {% csrf_token %}
-            <button type="submit" class="accidental">D#</button>
-        </form>
-   
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('E', this);">
-            {% csrf_token %}
-            <button type="submit">E</button>
-        </form>
-   
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('F', this);">
-            {% csrf_token %}
-            <button type="submit">F</button>
-        </form>
-   
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Fb', this);">
-            {% csrf_token %}
-            <button type="submit" class="accidental">F#</button>
-        </form>
-   
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('G', this);">
-            {% csrf_token %}
-            <button type="submit">G</button>
-        </form>
-   
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Gb', this);">
-            {% csrf_token %}
-            <button type="submit" class="accidental">G#</button>
-        </form>
-        
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('A', this);">
-            {% csrf_token %}
-            <button type="submit" >A</button>
-        </form>
-
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('Ab', this);">
-            {% csrf_token %}
-            <button type="submit" class="accidental">A#</button>
-        </form>
-
-        <form method="POST" action="" onsubmit="event.preventDefault(); sprawdz('B', this);">
-            {% csrf_token %}
-            <button type="submit">B</button>
-        </form>
-        </form>
-    </div>
-   
-
-    {% if user.is_authenticated %}
-    <button onclick="zagraj()" id="zagraj">Zagraj dźwięk</button>
-    <p id="poprawne">Poprawne odpowiedzi: <span id="correct_score">{{ request.user.dobre }}</span></p>
-    <p id="bledne">Błędne odpowiedzi: <span id="wrong_score">{{ request.user.zle }}</span></p>
-    <a href="{% url 'logout' %}">Wyloguj się</a>
-    <p>Alert: dźwięki odtwarzają się na firefoxie, ale nie na chromie. nie wiem czemu.</p>
-    {% else %}
-    <a href="{% url 'rejestr' %}">Zaloguj się by zapisać wynik</a>
-    {% endif %}
 </body>
 </html>
